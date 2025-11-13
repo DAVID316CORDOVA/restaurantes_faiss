@@ -53,7 +53,22 @@ def read_mongo_data(col):
     data = list(col.find({}))
     for o in data:
         o["_id"] = str(o["_id"])
-    return pd.DataFrame(data)
+    df = pd.DataFrame(data)
+    
+    # ELIMINAR DUPLICADOS
+    # Prioriza el registro con más información (menos valores nulos)
+    df = df.sort_values(by=df.columns.tolist(), 
+                        key=lambda x: x.isna().sum(), 
+                        ascending=True)
+    
+    # Elimina duplicados basándote en el nombre del restaurante
+    nombre_cols = ['nombre', 'Nombre', 'name']
+    for col_name in nombre_cols:
+        if col_name in df.columns:
+            df = df.drop_duplicates(subset=[col_name], keep='first')
+            break
+    
+    return df
 
 # Google Maps
 def get_coordinates(address):
@@ -242,6 +257,7 @@ if addr:
             st.dataframe(pd.DataFrame(display_data), use_container_width=True, hide_index=True)
     else:
         st.error(" No se pudo encontrar la ubicación. Intenta con una dirección más específica.")
+
 
 
 
