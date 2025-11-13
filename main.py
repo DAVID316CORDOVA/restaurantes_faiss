@@ -82,7 +82,7 @@ def extract_coordinates(row):
     except:
         return None, None
 
-def filter_nearby(lat, lng, df, max_m=3000):
+def filter_nearby(lat, lng, df, max_m=1000):
     distances = []
     valid_coords = []
     for idx, row in df.iterrows():
@@ -177,7 +177,7 @@ Mantén el resumen conciso y útil (máximo 300 palabras).
 # ======================
 # STREAMLIT
 # ======================
-st.set_page_config(page_title="🍽️ Buscador de Restaurantes", layout="wide")
+st.set_page_config(page_title="Buscador de Restaurantes", layout="wide")
 st.title(" Buscador Inteligente de Restaurantes")
 
 # Conexión Mongo
@@ -203,11 +203,11 @@ if addr:
     if user_lat and user_lng:
         st.success(f" Ubicación encontrada")
         with st.spinner("Buscando restaurantes cercanos..."):
-            nearby = filter_nearby(user_lat, user_lng, df, max_m=3000)
+            nearby = filter_nearby(user_lat, user_lng, df, max_m=1000)
         if nearby.empty:
             st.warning(" No se encontraron restaurantes cercanos")
         else:
-            st.info(f" Se encontraron {len(nearby)} restaurantes en un radio de 3km")
+            st.info(f" Se encontraron {len(nearby)} restaurantes en un radio de 1 km")
 
             # Mapa
             m = folium.Map(location=[user_lat, user_lng], zoom_start=14)
@@ -242,6 +242,7 @@ if addr:
             st.dataframe(pd.DataFrame(display_data), use_container_width=True, hide_index=True)
     else:
         st.error(" No se pudo encontrar la ubicación. Intenta con una dirección más específica.")
+
 
 
 
