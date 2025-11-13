@@ -1,0 +1,29 @@
+# --- Core ---
+numpy==1.26.4
+pandas==2.1.4
+pyarrow==21.0.0
+requests==2.32.5
+geopy==2.4.1
+
+# --- MongoDB ---
+pymongo==4.15.3
+dnspython==2.8.0
+
+# --- Streamlit & UI ---
+streamlit==1.51.0
+streamlit-folium==0.25.3
+folium==0.20.0
+altair==5.5.0
+branca==0.8.2
+
+# --- OpenAI ---
+openai==2.7.1
+
+# --- FAISS CPU (precompilado para Windows) ---
+faiss-cpu==1.7.3
+
+# --- Auxiliares ---
+tqdm==4.67.1
+typing_extensions==4.15.0
+protobuf==6.33.0
+packaging==25.0
