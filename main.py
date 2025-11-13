@@ -25,8 +25,9 @@ MONGO_URI = "mongodb+srv://topicos_user:vt2GV4Q75YFJrVpR@puj-topicos-bd.m302xsg.
 DATABASE_NAME = "restaurantes_db"
 COLLECTION_NAME = "chapinero_data"
 
-GOOGLE_KEY = "AIzaSyAEsfwqS_pvzrJRFisamgisVvcVY6UUJ_s"
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+GOOGLE_KEY = st.secrets["GOOGLE_KEY"]
+MONGO_URI = st.secrets["MONGO_URI"]
 
 openai.api_key = OPENAI_API_KEY
 
@@ -241,3 +242,4 @@ if addr:
             st.dataframe(pd.DataFrame(display_data), use_container_width=True, hide_index=True)
     else:
         st.error("❌ No se pudo encontrar la ubicación. Intenta con una dirección más específica.")
+
