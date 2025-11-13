@@ -177,8 +177,8 @@ Mantén el resumen conciso y útil (máximo 300 palabras).
 # ======================
 # STREAMLIT
 # ======================
-st.set_page_config(page_title="🍽️ Buscador de Restaurantes FAISS", layout="wide")
-st.title(" Buscador Inteligente de Restaurantes (FAISS)")
+st.set_page_config(page_title="🍽️ Buscador de Restaurantes", layout="wide")
+st.title(" Buscador Inteligente de Restaurantes")
 
 # Conexión Mongo
 col = connect_mongo()
@@ -242,5 +242,6 @@ if addr:
             st.dataframe(pd.DataFrame(display_data), use_container_width=True, hide_index=True)
     else:
         st.error(" No se pudo encontrar la ubicación. Intenta con una dirección más específica.")
+
 
 
