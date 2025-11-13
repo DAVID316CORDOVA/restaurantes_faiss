@@ -82,7 +82,7 @@ def extract_coordinates(row):
     except:
         return None, None
 
-def filter_nearby(lat, lng, df, max_m=10000):
+def filter_nearby(lat, lng, df, max_m=3000):
     distances = []
     valid_coords = []
     for idx, row in df.iterrows():
@@ -114,7 +114,7 @@ def obtener_embeddings_openai(textos: List[str]) -> np.ndarray:
 
 def cargar_faiss():
     if not os.path.exists(INDEX_FILE) or not os.path.exists(META_FILE):
-        st.error("❌ No se encontró la base FAISS. Crea la base primero con tu script FAISS.")
+        st.error(" No se encontró la base FAISS. Crea la base primero con tu script FAISS.")
         return None, None
     index = faiss.read_index(INDEX_FILE)
     with open(META_FILE, "r", encoding="utf-8") as f:
@@ -178,7 +178,7 @@ Mantén el resumen conciso y útil (máximo 300 palabras).
 # STREAMLIT
 # ======================
 st.set_page_config(page_title="🍽️ Buscador de Restaurantes FAISS", layout="wide")
-st.title("🍽️ Buscador Inteligente de Restaurantes (FAISS)")
+st.title(" Buscador Inteligente de Restaurantes (FAISS)")
 
 # Conexión Mongo
 col = connect_mongo()
@@ -196,22 +196,22 @@ if index is None:
     st.stop()
 
 # Input usuario
-addr = st.text_input("🔍 Ingresa tu ubicación:", placeholder="Ej: Calle 72 Carrera 5")
+addr = st.text_input(" Ingresa tu ubicación:", placeholder="Ej: Calle 72 Carrera 5")
 if addr:
     with st.spinner("Buscando tu ubicación..."):
         user_lat, user_lng = get_coordinates(addr)
     if user_lat and user_lng:
-        st.success(f"✅ Ubicación encontrada")
+        st.success(f" Ubicación encontrada")
         with st.spinner("Buscando restaurantes cercanos..."):
-            nearby = filter_nearby(user_lat, user_lng, df, max_m=10000)
+            nearby = filter_nearby(user_lat, user_lng, df, max_m=3000)
         if nearby.empty:
-            st.warning("⚠️ No se encontraron restaurantes cercanos")
+            st.warning(" No se encontraron restaurantes cercanos")
         else:
-            st.info(f"📍 Se encontraron {len(nearby)} restaurantes en un radio de 10km")
+            st.info(f" Se encontraron {len(nearby)} restaurantes en un radio de 3km")
 
             # Mapa
             m = folium.Map(location=[user_lat, user_lng], zoom_start=14)
-            folium.Marker([user_lat,user_lng], tooltip="📍 Tu ubicación",
+            folium.Marker([user_lat,user_lng], tooltip=" Tu ubicación",
                           icon=folium.Icon(color="red", icon="home", prefix='fa')).add_to(m)
             for idx,row in nearby.iterrows():
                 lat,lng = extract_coordinates(row)
@@ -220,17 +220,17 @@ if addr:
                                   tooltip=f"{get_restaurant_name(row)}\nRating: {get_restaurant_rating(row)}\nDistancia: {round(row.get('dist',0))}m",
                                   popup=f"<b>{get_restaurant_name(row)}</b><br>Rating: {get_restaurant_rating(row)}<br>Distancia: {round(row.get('dist',0))}m",
                                   icon=folium.Icon(color="blue", icon="cutlery", prefix='fa')).add_to(m)
-            st.subheader("🗺️ Mapa de Restaurantes")
+            st.subheader(" Mapa de Restaurantes")
             st_folium(m, width=900, height=500)
 
             # Resumen FAISS
-            st.subheader("🤖 Resumen Inteligente con FAISS")
+            st.subheader(" Resumen Inteligente con FAISS")
             with st.spinner("Generando resumen con IA y FAISS..."):
                 summary = generar_resumen_faiss(nearby.to_dict(orient="records"), index, metadata)
             st.write(summary)
 
             # Tabla
-            st.subheader("📊 Lista de Restaurantes Cercanos")
+            st.subheader("Lista de Restaurantes Cercanos")
             display_data = []
             for idx,row in nearby.iterrows():
                 display_data.append({
@@ -241,5 +241,6 @@ if addr:
                 })
             st.dataframe(pd.DataFrame(display_data), use_container_width=True, hide_index=True)
     else:
-        st.error("❌ No se pudo encontrar la ubicación. Intenta con una dirección más específica.")
+        st.error(" No se pudo encontrar la ubicación. Intenta con una dirección más específica.")
+
 
