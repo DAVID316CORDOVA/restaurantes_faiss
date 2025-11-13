@@ -55,18 +55,16 @@ def read_mongo_data(col):
         o["_id"] = str(o["_id"])
     df = pd.DataFrame(data)
     
-    # ELIMINAR DUPLICADOS
-    # Prioriza el registro con más información (menos valores nulos)
-    df = df.sort_values(by=df.columns.tolist(), 
-                        key=lambda x: x.isna().sum(), 
-                        ascending=True)
+    if df.empty:
+        return df
     
-    # Elimina duplicados basándote en el nombre del restaurante
-    nombre_cols = ['nombre', 'Nombre', 'name']
-    for col_name in nombre_cols:
-        if col_name in df.columns:
-            df = df.drop_duplicates(subset=[col_name], keep='first')
-            break
+    #  Eliminar duplicados por nombre (simple y efectivo)
+    if 'nombre' in df.columns:
+        df = df.drop_duplicates(subset=['nombre'], keep='first')
+    elif 'Nombre' in df.columns:
+        df = df.drop_duplicates(subset=['Nombre'], keep='first')
+    elif 'name' in df.columns:
+        df = df.drop_duplicates(subset=['name'], keep='first')
     
     return df
 
@@ -257,6 +255,7 @@ if addr:
             st.dataframe(pd.DataFrame(display_data), use_container_width=True, hide_index=True)
     else:
         st.error(" No se pudo encontrar la ubicación. Intenta con una dirección más específica.")
+
 
 
 
