@@ -670,12 +670,12 @@ if addr:
             if not top_rated.empty:
                 display_top = []
                 for idx, row in top_rated.iterrows():
-                display_top.append({
-                        'Nombre': get_restaurant_name(row),
-                        'Rating': get_restaurant_rating(row),
-                        'Distancia (m)': round(row.get('dist', 0)),
-                        'Dirección': row.get('direccion') or row.get('Dirección') or row.get('address') or 'N/A'
-                    })
+                    display_top.append({
+                            'Nombre': get_restaurant_name(row),
+                            'Rating': get_restaurant_rating(row),
+                            'Distancia (m)': round(row.get('dist', 0)),
+                            'Dirección': row.get('direccion') or row.get('Dirección') or row.get('address') or 'N/A'
+                        })
                 st.dataframe(pd.DataFrame(display_top), use_container_width=True, hide_index=True)
             else:
                 st.info("No se encontraron restaurantes con rating superior a 4.0 en el área")
@@ -1188,6 +1188,7 @@ with st.expander("Ver Información Técnica de Índices"):
 #             st.dataframe(pd.DataFrame(display_data), use_container_width=True, hide_index=True)
 #     else:
 #         st.error(" No se pudo encontrar la ubicación. Intenta con una dirección más específica.")
+
 
 
 
