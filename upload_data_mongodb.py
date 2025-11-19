@@ -119,7 +119,7 @@ except Exception as e:
     exit()
 
 # --- 5. CREAR ÍNDICES OPTIMIZADOS ---
-print("\n[5/5] 🔧 Creando índices optimizados...")
+print("\n[5/5]  Creando índices optimizados...")
 
 indices_creados = []
 indices_fallidos = []
@@ -182,25 +182,6 @@ try:
 except Exception as e:
     indices_fallidos.append(f" idx_geo_rating: {e}")
 
-# ========================================
-# ÍNDICE 5: TEXTO COMPLETO (opcional) - EXPERIMENTAL
-# ========================================
-try:
-    # Solo si tienes campos de texto largo (descripción, reseñas)
-    if 'descripcion' in data[0] or 'reseñas' in data[0]:
-        collection.create_index(
-            [("nombre", "text"), ("descripcion", "text")],
-            name="idx_texto",
-            default_language="spanish"
-        )
-        indices_creados.append(" idx_texto (text search)")
-        print("\n ÍNDICE DE TEXTO COMPLETO creado")
-        print("   Campos: nombre, descripcion")
-        print("   Beneficio: Búsquedas de texto con $text")
-        print("   Uso: Buscar 'pizza artesanal' en descripciones")
-except Exception as e:
-    # No es crítico, puede fallar si no hay campos de texto
-    print(f"\n  Índice de texto no creado (puede no ser necesario)")
 
 # --- RESUMEN FINAL ---
 print("\n" + "=" * 70)
@@ -229,4 +210,3 @@ print("=" * 70)
 # Cerrar conexión
 client.close()
 print("\n Conexión cerrada")
-print("\n Siguiente paso: Ejecuta el verificador de índices para confirmar")
