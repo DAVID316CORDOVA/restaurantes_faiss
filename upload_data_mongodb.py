@@ -19,7 +19,7 @@ print(" CREADOR DE BASE DE DATOS OPTIMIZADA")
 print("=" * 70)
 
 # --- 1. CONEXIÓN ---
-print("\n[1/5] 🔌 Conectando a MongoDB Atlas...")
+print("\n[1/5]  Conectando a MongoDB Atlas...")
 
 try:
     fixed_uri = MONGO_URI.replace('mongodb-srv://', 'mongodb+srv://')
@@ -210,3 +210,4 @@ print("=" * 70)
 # Cerrar conexión
 client.close()
 print("\n Conexión cerrada")
+
